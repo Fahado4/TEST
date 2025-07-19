@@ -37,6 +37,16 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       position: absolute;
       z-index: 1000;
+      user-select: none;
+      transition: transform 0.1s;
+    }
+
+    #img:hover {
+      transform: scale(1.1);
+    }
+
+    #img:active {
+      transform: scale(0.9);
     }
   </style>
 </head>
@@ -45,89 +55,159 @@
   <main>
     <h1>I am Fahad</h1>
     <p>Welcome to my very first web page.</p>
+    <p style="color: #666; font-size: 12px;">العب بالكورة 😜</p>
   </main>
 
   <!-- Bouncing Ball Animation -->
-  <div id="img" onMouseDown="pauseResume();">
+  <div id="img">
   </div>
 
   <script>
-    var step = 3;
-    var delay = 20;
-    var xPos = 50;
-    var yPos = 50;
-    var xon = 1;
-    var yon = 1;
-    var pause = false;
+    // Tennis ball physics variables
+    var xPos = 100;
+    var yPos = 100;
+    var xVel = 0;  // Start with no velocity
+    var yVel = 0;  // Start with no velocity
+    var gravity = 0.5;  // Gravity effect
+    var bounce = 0.8;   // Bounce factor (energy loss)
+    var friction = 0.99; // Air resistance
     var interval;
+    var isDragging = false;
+    var dragStartX = 0;
+    var dragStartY = 0;
+    var lastMouseX = 0;
+    var lastMouseY = 0;
+    var hasStarted = false; // Track if ball has been kicked
     
-    function changePos() {
+    // Get the ball element
+    var ball = document.getElementById('img');
+    
+    function updateBall() {
       var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
       
-      // Update position
-      if (yon) {
-        yPos = yPos + step;
-      } else {
-        yPos = yPos - step;
-      }
-      
-      if (xon) {
-        xPos = xPos + step;
-      } else {
-        xPos = xPos - step;
-      }
-      
-      // Bounce off edges
-      if (yPos <= 0) {
-        yon = 1;
-        yPos = 0;
-      }
-      if (yPos >= (height - 30)) {
-        yon = 0;
-        yPos = height - 30;
-      }
-      
-      if (xPos <= 0) {
-        xon = 1;
-        xPos = 0;
-      }
-      if (xPos >= (width - 30)) {
-        xon = 0;
-        xPos = width - 30;
+      // Only apply physics if the ball has been kicked
+      if (hasStarted) {
+        // Apply gravity
+        yVel += gravity;
+        
+        // Apply friction
+        xVel *= friction;
+        yVel *= friction;
+        
+        // Update position
+        xPos += xVel;
+        yPos += yVel;
+        
+        // Bounce off walls
+        if (xPos <= 0) {
+          xPos = 0;
+          xVel = Math.abs(xVel) * bounce;
+        }
+        if (xPos >= (width - 30)) {
+          xPos = width - 30;
+          xVel = -Math.abs(xVel) * bounce;
+        }
+        
+        // Bounce off floor and ceiling
+        if (yPos >= (height - 30)) {
+          yPos = height - 30;
+          yVel = -Math.abs(yVel) * bounce;
+          
+          // Add some horizontal movement when bouncing
+          if (Math.abs(xVel) < 1) {
+            xVel = (Math.random() - 0.5) * 4;
+          }
+        }
+        if (yPos <= 0) {
+          yPos = 0;
+          yVel = Math.abs(yVel) * bounce;
+        }
+        
+        // Keep minimum velocity to prevent stopping
+        if (Math.abs(xVel) < 0.5 && Math.abs(yVel) < 0.5) {
+          xVel = (Math.random() - 0.5) * 6;
+          yVel = (Math.random() - 0.5) * 6;
+        }
       }
       
       // Apply position
-      document.getElementById('img').style.left = xPos + 'px';
-      document.getElementById('img').style.top = yPos + 'px';
+      ball.style.left = xPos + 'px';
+      ball.style.top = yPos + 'px';
     }
     
     function start() {
-      document.getElementById('img').style.visibility = "visible";
+      ball.style.visibility = "visible";
       if (!interval) {
-        interval = setInterval(changePos, delay);
+        interval = setInterval(updateBall, 16); // 60 FPS
       }
     }
     
-    function pauseResume() {
-      if (pause) {
-        interval = setInterval(changePos, delay);
-        pause = false;
-      } else {
-        clearInterval(interval);
-        interval = null;
-        pause = true;
+    function handleMouseDown(event) {
+      if (event.button === 0) { // Left click only
+        isDragging = true;
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        lastMouseX = event.clientX;
+        lastMouseY = event.clientY;
+        
+        // Add mouse move listener
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        
+        // Prevent default behavior
+        event.preventDefault();
       }
     }
     
-    // Start animation when page loads
+    function handleMouseMove(event) {
+      if (isDragging) {
+        var deltaX = event.clientX - lastMouseX;
+        var deltaY = event.clientY - lastMouseY;
+        
+        lastMouseX = event.clientX;
+        lastMouseY = event.clientY;
+      }
+    }
+    
+    function handleMouseUp(event) {
+      if (isDragging) {
+        isDragging = false;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        
+        // Calculate kick direction and power
+        var deltaX = event.clientX - dragStartX;
+        var deltaY = event.clientY - dragStartY;
+        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        if (distance > 5) { // Minimum distance to register as a kick
+          // Mark that the ball has started moving
+          hasStarted = true;
+          
+          // Apply kick force
+          var kickPower = Math.min(distance / 3, 15); // Max speed of 15
+          
+          // Apply velocity based on drag direction
+          xVel += (deltaX / distance) * kickPower;
+          yVel += (deltaY / distance) * kickPower;
+          
+          // Ensure minimum velocity
+          if (Math.abs(xVel) < 2) xVel = (deltaX > 0 ? 1 : -1) * 2;
+          if (Math.abs(yVel) < 2) yVel = (deltaY > 0 ? 1 : -1) * 2;
+        }
+      }
+    }
+    
+    // Add event listeners when page loads
     window.onload = function() {
+      ball.addEventListener('mousedown', handleMouseDown);
       start();
     };
     
-    // Restart animation if it stops
+    // Ensure animation never stops once started
     setInterval(function() {
-      if (!interval && !pause) {
+      if (!interval && hasStarted) {
         start();
       }
     }, 1000);
