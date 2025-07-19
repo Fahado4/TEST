@@ -2,43 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hello!</title>
+  <title>Hello from Fahad!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Styling for the visual <head> display */
-    .head-visible {
-      background-color: #0ed415;
-      padding: 12px;
-      border-bottom: 1px solid #c00fa5;
-      font-family: monospace;
-      color: #dd7a0f;
-      white-space: pre;
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #fff);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      z-index: 1;
     }
 
     h1 {
-      color: #0acbd2;
+      font-size: 2.5rem;
+      color: #00796b;
+      margin-bottom: 10px;
     }
 
     p {
-      color: #a70e0e;
+      font-size: 1rem;
+      color: #444;
+      margin: 6px 0;
     }
 
-    /* Bouncing ball styling */
+    p:last-child {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    /* Bouncing ball */
     #img {
-      width: 30px;
-      height: 30px;
-      background: radial-gradient(circle, #0066ff 0%, #0033cc 70%, #001a66 100%);
+      width: 35px;
+      height: 35px;
+      background: radial-gradient(circle at 30% 30%, #00bcd4, #00838f);
       border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       position: absolute;
-      z-index: 1000;
-      user-select: none;
-      transition: transform 0.1s;
+      cursor: grab;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s ease;
     }
 
     #img:hover {
@@ -46,173 +61,164 @@
     }
 
     #img:active {
-      transform: scale(0.9);
+      transform: scale(0.95);
+      cursor: grabbing;
+    }
+
+    /* Optional floating background bubbles */
+    .bubble {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(0, 188, 212, 0.1);
+      z-index: 0;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .bubble:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .bubble:nth-child(2) {
+      bottom: 10%;
+      right: 10%;
+      animation-delay: 5s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
     }
   </style>
 </head>
 <body>
 
-  <main>
+  <!-- Background bubbles for visual effect -->
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+
+  <div class="container">
     <h1>I am Fahad</h1>
     <p>Welcome to my very first web page.</p>
-    <p style="color: #666; font-size: 12px;">العب بالكورة 😜</p>
-  </main>
-
-  <!-- Bouncing Ball Animation -->
-  <div id="img">
+    <p>العب بالكورة 😜</p>
   </div>
 
+  <div id="img"></div>
+
+  <!-- JavaScript (Unchanged Physics Engine) -->
   <script>
-    // Tennis ball physics variables
     var xPos = 100;
     var yPos = 100;
-    var xVel = 0;  // Start with no velocity
-    var yVel = 0;  // Start with no velocity
-    var gravity = 0.5;  // Gravity effect
-    var bounce = 0.8;   // Bounce factor (energy loss)
-    var friction = 0.99; // Air resistance
+    var xVel = 0, yVel = 0;
+    var gravity = 0.5;
+    var bounce = 0.8;
+    var friction = 0.99;
     var interval;
     var isDragging = false;
-    var dragStartX = 0;
-    var dragStartY = 0;
-    var lastMouseX = 0;
-    var lastMouseY = 0;
-    var hasStarted = false; // Track if ball has been kicked
-    
-    // Get the ball element
+    var dragStartX = 0, dragStartY = 0;
+    var lastMouseX = 0, lastMouseY = 0;
+    var hasStarted = false;
     var ball = document.getElementById('img');
-    
+
     function updateBall() {
-      var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      
-      // Only apply physics if the ball has been kicked
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
       if (hasStarted) {
-        // Apply gravity
         yVel += gravity;
-        
-        // Apply friction
         xVel *= friction;
         yVel *= friction;
-        
-        // Update position
+
         xPos += xVel;
         yPos += yVel;
-        
-        // Bounce off walls
-        if (xPos <= 0) {
-          xPos = 0;
-          xVel = Math.abs(xVel) * bounce;
+
+        if (xPos <= 0 || xPos >= width - 35) {
+          xPos = Math.max(0, Math.min(xPos, width - 35));
+          xVel = -xVel * bounce;
         }
-        if (xPos >= (width - 30)) {
-          xPos = width - 30;
-          xVel = -Math.abs(xVel) * bounce;
-        }
-        
-        // Bounce off floor and ceiling
-        if (yPos >= (height - 30)) {
-          yPos = height - 30;
+
+        if (yPos >= height - 35) {
+          yPos = height - 35;
           yVel = -Math.abs(yVel) * bounce;
-          
-          // Add some horizontal movement when bouncing
-          if (Math.abs(xVel) < 1) {
-            xVel = (Math.random() - 0.5) * 4;
-          }
+          if (Math.abs(xVel) < 1) xVel = (Math.random() - 0.5) * 4;
         }
+
         if (yPos <= 0) {
           yPos = 0;
           yVel = Math.abs(yVel) * bounce;
         }
-        
-        // Keep minimum velocity to prevent stopping
+
         if (Math.abs(xVel) < 0.5 && Math.abs(yVel) < 0.5) {
           xVel = (Math.random() - 0.5) * 6;
           yVel = (Math.random() - 0.5) * 6;
         }
       }
-      
-      // Apply position
+
       ball.style.left = xPos + 'px';
       ball.style.top = yPos + 'px';
     }
-    
+
     function start() {
       ball.style.visibility = "visible";
-      if (!interval) {
-        interval = setInterval(updateBall, 16); // 60 FPS
-      }
+      if (!interval) interval = setInterval(updateBall, 16);
     }
-    
-    function handleMouseDown(event) {
-      if (event.button === 0) { // Left click only
+
+    function handleMouseDown(e) {
+      if (e.button === 0) {
         isDragging = true;
-        dragStartX = event.clientX;
-        dragStartY = event.clientY;
-        lastMouseX = event.clientX;
-        lastMouseY = event.clientY;
-        
-        // Add mouse move listener
+        dragStartX = lastMouseX = e.clientX;
+        dragStartY = lastMouseY = e.clientY;
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
-        
-        // Prevent default behavior
-        event.preventDefault();
+        e.preventDefault();
       }
     }
-    
-    function handleMouseMove(event) {
+
+    function handleMouseMove(e) {
       if (isDragging) {
-        var deltaX = event.clientX - lastMouseX;
-        var deltaY = event.clientY - lastMouseY;
-        
-        lastMouseX = event.clientX;
-        lastMouseY = event.clientY;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
       }
     }
-    
-    function handleMouseUp(event) {
+
+    function handleMouseUp(e) {
       if (isDragging) {
         isDragging = false;
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
-        
-        // Calculate kick direction and power
-        var deltaX = event.clientX - dragStartX;
-        var deltaY = event.clientY - dragStartY;
+
+        var deltaX = e.clientX - dragStartX;
+        var deltaY = e.clientY - dragStartY;
         var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        
-        if (distance > 5) { // Minimum distance to register as a kick
-          // Mark that the ball has started moving
+
+        if (distance > 5) {
           hasStarted = true;
-          
-          // Apply kick force
-          var kickPower = Math.min(distance / 3, 15); // Max speed of 15
-          
-          // Apply velocity based on drag direction
+          var kickPower = Math.min(distance / 3, 15);
           xVel += (deltaX / distance) * kickPower;
           yVel += (deltaY / distance) * kickPower;
-          
-          // Ensure minimum velocity
+
           if (Math.abs(xVel) < 2) xVel = (deltaX > 0 ? 1 : -1) * 2;
           if (Math.abs(yVel) < 2) yVel = (deltaY > 0 ? 1 : -1) * 2;
         }
       }
     }
-    
-    // Add event listeners when page loads
-    window.onload = function() {
+
+    window.onload = function () {
       ball.addEventListener('mousedown', handleMouseDown);
       start();
     };
-    
-    // Ensure animation never stops once started
-    setInterval(function() {
-      if (!interval && hasStarted) {
-        start();
-      }
+
+    setInterval(function () {
+      if (!interval && hasStarted) start();
     }, 1000);
   </script>
 
 </body>
 </html>
-
