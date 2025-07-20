@@ -2,221 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hello from Fahad!</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fahad's First Website</title>
   <style>
+    .dark {
+      background: linear-gradient(to right, #1a1a1a, #2d2d2d) !important;
+      color: white !important;
+    }
+
+    .dark button {
+      background-color: #333 !important;
+      color: white !important;
+    }
+
+    .dark button:hover {
+      background-color: #555 !important;
+      color: white !important;
+    }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #e0f7fa, #fff);
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .container {
-      background-color: white;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: 0.4s;
+      font-family: Arial;
+      background: linear-gradient(to right, #006400, #004d00);
+      color: white;
       text-align: center;
-      max-width: 500px;
-      z-index: 1;
+      padding: 20px;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      color: #00796b;
-      margin-bottom: 10px;
+    #darkModeBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      font-size: 14px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    p {
-      font-size: 1rem;
-      color: #444;
-      margin: 6px 0;
+    #darkModeBtn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
     }
 
-    p:last-child {
-      font-size: 0.9rem;
-      color: #777;
+    img {
+      width: 300px;
+      border-radius: 20px;
+      margin: 20px 0;
     }
 
-    /* Bouncing ball */
-    #img {
-      width: 35px;
-      height: 35px;
-      background: radial-gradient(circle at 30% 30%, #00bcd4, #00838f);
-      border-radius: 50%;
-      position: absolute;
-      cursor: grab;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.1s ease;
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: white;
+      color: green;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
-    #img:hover {
-      transform: scale(1.1);
-    }
-
-    #img:active {
-      transform: scale(0.95);
-      cursor: grabbing;
-    }
-
-    /* Optional floating background bubbles */
-    .bubble {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: rgba(0, 188, 212, 0.1);
-      z-index: 0;
-      animation: float 20s infinite ease-in-out;
-    }
-
-    .bubble:nth-child(1) {
-      top: 10%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .bubble:nth-child(2) {
-      bottom: 10%;
-      right: 10%;
-      animation-delay: 5s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
+    button:hover {
+      background-color: gold;
+      color: black;
     }
   </style>
 </head>
 <body>
-
-  <!-- Background bubbles for visual effect -->
-  <div class="bubble"></div>
-  <div class="bubble"></div>
-
-  <div class="container">
-    <h1>I am Fahad</h1>
-    <p>Welcome to my very first web page.</p>
-    <p>العب بالكورة 😜</p>
+  <!-- Audio Player -->
+  <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+    <audio id="myAudio" loop>
+      <source src="youtube_I66_rC6o4K4_audio.opus" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <button id="audioBtn" style="padding: 10px 15px; background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 25px; cursor: pointer;">
+      ▶️ Play Music
+    </button>
   </div>
 
-  <div id="img"></div>
+  <button id="darkModeBtn">🌙 Toggle Dark Mode</button>
 
-  <!-- JavaScript (Unchanged Physics Engine) -->
   <script>
-    var xPos = 100;
-    var yPos = 100;
-    var xVel = 0, yVel = 0;
-    var gravity = 0.5;
-    var bounce = 0.8;
-    var friction = 0.99;
-    var interval;
-    var isDragging = false;
-    var dragStartX = 0, dragStartY = 0;
-    var lastMouseX = 0, lastMouseY = 0;
-    var hasStarted = false;
-    var ball = document.getElementById('img');
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+    document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
 
-    function updateBall() {
-      var width = window.innerWidth;
-      var height = window.innerHeight;
-
-      if (hasStarted) {
-        yVel += gravity;
-        xVel *= friction;
-        yVel *= friction;
-
-        xPos += xVel;
-        yPos += yVel;
-
-        if (xPos <= 0 || xPos >= width - 35) {
-          xPos = Math.max(0, Math.min(xPos, width - 35));
-          xVel = -xVel * bounce;
-        }
-
-        if (yPos >= height - 35) {
-          yPos = height - 35;
-          yVel = -Math.abs(yVel) * bounce;
-          if (Math.abs(xVel) < 1) xVel = (Math.random() - 0.5) * 4;
-        }
-
-        if (yPos <= 0) {
-          yPos = 0;
-          yVel = Math.abs(yVel) * bounce;
-        }
-
-        if (Math.abs(xVel) < 0.5 && Math.abs(yVel) < 0.5) {
-          xVel = (Math.random() - 0.5) * 6;
-          yVel = (Math.random() - 0.5) * 6;
-        }
+    // Audio control
+    const audio = document.getElementById('myAudio');
+    const audioBtn = document.getElementById('audioBtn');
+    
+    audioBtn.addEventListener('click', function() {
+      if (audio.paused) {
+        audio.play();
+        audioBtn.innerHTML = '⏸️ Pause Music';
+      } else {
+        audio.pause();
+        audioBtn.innerHTML = '▶️ Play Music';
       }
+    });
+  </script>
+  
 
-      ball.style.left = xPos + 'px';
-      ball.style.top = yPos + 'px';
+  <!-- Header -->
+  <h1>Hi, I'm Fahad 👋</h1>
+  <p>This is my first website. I'm an Electrical Engineering student who is بيّاع</p>
+
+  <!-- Photo -->
+  <img src="sand-castle.webp" alt="Saudi Arabia">
+
+  <!-- Fun Facts -->
+  <h2>🌟 Fun Facts About Me</h2>
+  <ul style="padding-left: 20px; list-style-position: inside;">
+    <li>I love electronics</li>
+    <li>I’m learning to code</li>
+    <li>I enjoy coffee ☕</li>
+  </ul>
+  
+
+  <!-- Live Clock -->
+  <h2>⏰ Current Time</h2>
+  <p id="clock"></p>
+
+  <!-- Button & Message -->
+  <button onclick="sayHello()" class="arabic-text">!أضغطني</button>
+  <p id="message" class="arabic-text"></p>
+
+  <!-- Script -->
+  <script>
+    function sayHello() {
+      document.getElementById('message').textContent = "!🫢ياقليل الأدب";
     }
 
-    function start() {
-      ball.style.visibility = "visible";
-      if (!interval) interval = setInterval(updateBall, 16);
-    }
-
-    function handleMouseDown(e) {
-      if (e.button === 0) {
-        isDragging = true;
-        dragStartX = lastMouseX = e.clientX;
-        dragStartY = lastMouseY = e.clientY;
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-        e.preventDefault();
-      }
-    }
-
-    function handleMouseMove(e) {
-      if (isDragging) {
-        lastMouseX = e.clientX;
-        lastMouseY = e.clientY;
-      }
-    }
-
-    function handleMouseUp(e) {
-      if (isDragging) {
-        isDragging = false;
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-
-        var deltaX = e.clientX - dragStartX;
-        var deltaY = e.clientY - dragStartY;
-        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        if (distance > 5) {
-          hasStarted = true;
-          var kickPower = Math.min(distance / 3, 15);
-          xVel += (deltaX / distance) * kickPower;
-          yVel += (deltaY / distance) * kickPower;
-
-          if (Math.abs(xVel) < 2) xVel = (deltaX > 0 ? 1 : -1) * 2;
-          if (Math.abs(yVel) < 2) yVel = (deltaY > 0 ? 1 : -1) * 2;
-        }
-      }
-    }
-
-    window.onload = function () {
-      ball.addEventListener('mousedown', handleMouseDown);
-      start();
-    };
-
-    setInterval(function () {
-      if (!interval && hasStarted) start();
+    setInterval(() => {
+      document.getElementById("clock").textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }, 1000);
   </script>
 
