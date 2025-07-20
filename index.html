@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Fahad's First Website</title>
   <style>
+    /* Optimized for Brave/Chrome performance */
     * {
       margin: 0;
       padding: 0;
@@ -18,6 +19,9 @@
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     /* Dark mode styles */
@@ -32,7 +36,6 @@
 
     .dark .card {
       background: rgba(255, 255, 255, 0.1) !important;
-      backdrop-filter: blur(10px) !important;
     }
 
     .dark .music-player {
@@ -44,10 +47,11 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      padding-bottom: 140px;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
       min-height: 100vh;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     /* Header section */
@@ -57,7 +61,6 @@
       padding: 40px 20px;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
-      backdrop-filter: blur(10px);
     }
 
     .header h1 {
@@ -80,17 +83,21 @@
     /* Cards */
     .card {
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 30px;
       margin-bottom: 30px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px) translateZ(0);
+      -webkit-transform: translateY(-3px) translateZ(0);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
 
     .card h2 {
@@ -107,12 +114,17 @@
       border-radius: 20px;
       margin: 20px auto;
       display: block;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.15s ease;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
     }
 
     .profile-image:hover {
-      transform: scale(1.02);
+      transform: scale(1.01) translateZ(0);
+      -webkit-transform: scale(1.01) translateZ(0);
     }
 
     /* Fun facts list */
@@ -127,12 +139,17 @@
       padding: 15px 20px;
       border-radius: 10px;
       border-left: 4px solid #667eea;
-      transition: all 0.3s ease;
+      transition: all 0.15s ease;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform, background;
     }
 
     .fun-facts li:hover {
       background: rgba(255, 255, 255, 0.2);
-      transform: translateX(10px);
+      transform: translateX(5px) translateZ(0);
+      -webkit-transform: translateX(5px) translateZ(0);
     }
 
     /* Clock section */
@@ -141,7 +158,7 @@
       font-weight: bold;
       text-align: center;
       color: #fff;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     /* Interactive button */
@@ -153,15 +170,20 @@
       font-size: 1.1rem;
       border-radius: 50px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       display: block;
       margin: 20px auto;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
     }
 
     .interactive-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      transform: translateY(-1px) translateZ(0);
+      -webkit-transform: translateY(-1px) translateZ(0);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     /* Message display */
@@ -182,7 +204,7 @@
     .control-buttons {
       position: fixed;
       top: 20px;
-      right: 20px;
+      left: 20px;
       display: flex;
       gap: 10px;
       z-index: 1001;
@@ -195,27 +217,33 @@
       border-radius: 50px;
       padding: 12px 20px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      transition: all 0.15s ease;
       font-size: 14px;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
     }
 
     .control-btn:hover {
       background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
+      transform: scale(1.02) translateZ(0);
+      -webkit-transform: scale(1.02) translateZ(0);
     }
 
     /* Music Player */
     .music-player {
       position: fixed;
-      bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(20px);
-      padding: 20px;
-      z-index: 1000;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      bottom: 0;
+      z-index: 9999 !important;
+      background: #181818;
+      padding: 20px 0 20px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     .player-content {
@@ -259,12 +287,17 @@
       cursor: pointer;
       padding: 10px;
       border-radius: 50%;
-      transition: all 0.3s;
+      transition: all 0.15s ease;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform;
     }
 
     .control-btn-player:hover {
       background: rgba(255, 255, 255, 0.1);
-      transform: scale(1.1);
+      transform: scale(1.05) translateZ(0);
+      -webkit-transform: scale(1.05) translateZ(0);
     }
 
     .play-btn {
@@ -314,11 +347,14 @@
       width: 350px;
       height: 100vh;
       background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(20px);
-      transition: left 0.3s ease;
-      z-index: 999;
+      transition: left 0.15s cubic-bezier(.4,0,.2,1);
+      z-index: 1000;
       overflow-y: auto;
       padding: 20px;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: left;
     }
 
     .playlist-sidebar.open {
@@ -330,29 +366,38 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
-      padding-bottom: 20px;
+      padding: 50px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      gap: 20px;
     }
 
     .playlist-title {
       font-size: 24px;
       font-weight: bold;
       color: #fff;
+      flex: 1;
+      margin-right: 20px;
     }
 
     .close-playlist {
-      background: none;
+      background: rgba(255, 255, 255, 0.1);
       border: none;
       color: white;
-      font-size: 24px;
+      font-size: 20px;
       cursor: pointer;
-      padding: 8px;
+      padding: 12px;
       border-radius: 50%;
-      transition: background 0.3s;
+      transition: background 0.15s ease;
+      min-width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .close-playlist:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .playlist-item {
@@ -362,18 +407,23 @@
       margin: 8px 0;
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.15s ease;
       background: rgba(255, 255, 255, 0.05);
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform, background;
     }
 
     .playlist-item:hover {
       background: rgba(255, 255, 255, 0.1);
-      transform: translateX(5px);
+      transform: translateX(3px) translateZ(0);
+      -webkit-transform: translateX(3px) translateZ(0);
     }
 
     .playlist-item.active {
       background: #1db954;
-      box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+      box-shadow: 0 2px 8px rgba(29, 185, 84, 0.2);
     }
 
     .song-number {
@@ -401,25 +451,79 @@
       color: #ccc;
     }
 
+    /* Playlist button positioning */
     .toggle-playlist {
       position: fixed;
       top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      right: 20px;
+      background: rgba(40, 40, 40, 0.85);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.18);
       border-radius: 50px;
-      padding: 12px 20px;
+      padding: 14px 28px;
       cursor: pointer;
-      z-index: 1001;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      font-size: 14px;
+      z-index: 1002;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      transition: all 0.15s ease;
+      will-change: transform, opacity;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     .toggle-playlist:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
+      background: #1db954;
+      color: #fff;
+      transform: scale(1.02) translateZ(0);
+      -webkit-transform: scale(1.02) translateZ(0);
+    }
+
+    /* SVG Button Optimizations */
+    .svg-btn {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      border: none;
+      transition: all 0.15s ease;
+      will-change: transform, background, box-shadow;
+      /* Hardware acceleration */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+
+    .svg-btn svg {
+      display: block;
+      color: #fff;
+    }
+
+    .svg-btn:active, .svg-btn:focus {
+      outline: none;
+      background: #1db954;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(29,185,84,0.15);
+      transform: scale(0.98) translateZ(0);
+      -webkit-transform: scale(0.98) translateZ(0);
+    }
+
+    .play-btn {
+      background: #1db954 !important;
+      color: #fff !important;
+      width: 64px;
+      height: 64px;
+      box-shadow: 0 2px 8px rgba(29,185,84,0.15);
+    }
+
+    .play-btn svg {
+      color: #fff;
     }
 
     /* Responsive design */
@@ -474,7 +578,7 @@
     <!-- Header -->
     <div class="header">
       <h1>Hi, I'm Fahad 👋</h1>
-      <p>This is my first website. I'm an Electrical Engineering student who is بياع</p>
+      <p>This is my first website. I'm an Electrical Engineering student who is بيّاع</p>
     </div>
 
     <!-- Profile Image -->
@@ -584,13 +688,13 @@
         title: "شاب الشعر ياعبيد",
         artist: "أشباح الخبيتي",
         src: "Remixat-1.opus",
-        duration: "3:45"
+        duration: "17:01"
       },
       {
         title: "Azizam",
         artist: "Ed Sheeran", 
         src: "youtube_I66_rC6o4K4_audio.opus",
-        duration: "4:20"
+        duration: "2:42"
       }
     ];
 
@@ -650,15 +754,13 @@
     // Play audio
     function playAudio() {
       audioPlayer.play();
-      isPlaying = true;
-      updatePlayPauseIcon();
+      // Don't set isPlaying here!
     }
 
     // Pause audio
     function pauseAudio() {
       audioPlayer.pause();
-      isPlaying = false;
-      updatePlayPauseIcon();
+      // Don't set isPlaying here!
     }
 
     // Next track
@@ -743,18 +845,24 @@
         playPauseIcon.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
       }
     }
-    // Update play/pause icon in playAudio and pauseAudio
-    function playAudio() {
-      audioPlayer.play();
+    
+    // Listen for actual play/pause events
+    audioPlayer.addEventListener('play', () => {
       isPlaying = true;
       updatePlayPauseIcon();
-    }
-    function pauseAudio() {
-      audioPlayer.pause();
+    });
+    audioPlayer.addEventListener('pause', () => {
       isPlaying = false;
       updatePlayPauseIcon();
-    }
-    // On page load, set correct icon
+    });
+    audioPlayer.addEventListener('error', () => {
+      alert('Audio failed to play. Please check the file and format.');
+      isPlaying = false;
+      updatePlayPauseIcon();
+    });
+    
+    // Set initial state - ensure button shows play icon when page loads
+    isPlaying = false;
     updatePlayPauseIcon();
   </script>
 </body>
