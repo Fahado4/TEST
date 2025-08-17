@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Fahad's First Website</title>
   <style>
     .container-class { /* Replace with your container's class or ID */
@@ -126,6 +127,9 @@
       overflow-x: hidden;
       direction: ltr !important;
       text-align: left !important;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     /* Dark mode styles */
@@ -294,10 +298,15 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       display: block;
       margin: 20px auto;
+      min-height: 44px;
+      min-width: 44px;
       /* Hardware acceleration */
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
       will-change: transform;
+      /* Touch-friendly */
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .interactive-btn:hover {
@@ -342,10 +351,15 @@
       cursor: pointer;
       transition: all 0.15s ease;
       font-size: 14px;
+      min-height: 44px;
+      min-width: 44px;
       /* Hardware acceleration */
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
       will-change: transform;
+      /* Touch-friendly */
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .control-btn:hover {
@@ -411,10 +425,15 @@
       padding: 10px;
       border-radius: 50%;
       transition: all 0.15s ease;
+      min-height: 44px;
+      min-width: 44px;
       /* Hardware acceleration */
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
       will-change: transform;
+      /* Touch-friendly */
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .control-btn-player:hover {
@@ -555,10 +574,14 @@
       cursor: pointer;
       transition: all 0.15s ease;
       background: rgba(255, 255, 255, 0.05);
+      min-height: 44px;
       /* Hardware acceleration */
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
       will-change: transform, background;
+      /* Touch-friendly */
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .playlist-item:hover {
@@ -696,6 +719,261 @@
       .playlist-sidebar {
         width: 100%;
         left: -100%;
+      }
+    }
+
+    /* Mobile-first responsive design */
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 5px;
+        padding-bottom: 160px;
+      }
+      
+      .header {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+      }
+      
+      .header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
+      
+      .header p {
+        font-size: 1rem;
+        min-block-size: 40px;
+      }
+      
+      .card {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+      }
+      
+      .card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+      
+      .profile-image {
+        max-width: 100%;
+        margin: 15px auto;
+      }
+      
+      .fun-facts li {
+        padding: 12px 15px;
+        margin: 8px 0;
+        font-size: 0.95rem;
+      }
+      
+      .clock {
+        font-size: 2rem;
+      }
+      
+      .interactive-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        margin: 15px auto;
+      }
+      
+      .message {
+        font-size: 1rem;
+        padding: 12px;
+        min-height: 50px;
+      }
+      
+      .control-buttons {
+        top: 10px;
+        left: 10px;
+        gap: 8px;
+      }
+      
+      .control-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+        border-radius: 25px;
+      }
+      
+      .toggle-playlist {
+        top: 10px;
+        right: 10px;
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+      
+      .music-player {
+        padding: 15px 0;
+      }
+      
+      .player-content {
+        gap: 15px;
+        padding: 0 15px;
+      }
+      
+      .song-title {
+        font-size: 1rem;
+      }
+      
+      .song-artist {
+        font-size: 0.8rem;
+      }
+      
+      .control-btn-player {
+        font-size: 18px;
+        padding: 8px;
+      }
+      
+      .play-btn {
+        width: 56px;
+        height: 56px;
+      }
+      
+      .progress-bar {
+        height: 5px;
+      }
+      
+      .volume-container {
+        margin-top: 5px;
+      }
+      
+      .volume-slider {
+        width: 100px;
+      }
+      
+      .playlist-sidebar {
+        padding: 15px;
+      }
+      
+      .playlist-header {
+        padding: 30px 0;
+        margin-bottom: 20px;
+      }
+      
+      .playlist-title {
+        font-size: 20px;
+      }
+      
+      .playlist-item {
+        padding: 12px;
+        margin: 6px 0;
+      }
+      
+      .song-number {
+        width: 35px;
+        font-size: 1rem;
+      }
+      
+      .song-info {
+        margin-left: 12px;
+      }
+      
+      .song-name {
+        font-size: 0.95rem;
+      }
+      
+      .song-duration {
+        font-size: 12px;
+      }
+    }
+
+    /* Tablet responsive design */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .main-content {
+        padding: 8px;
+        padding-bottom: 150px;
+      }
+      
+      .header {
+        padding: 30px 25px;
+        margin-bottom: 30px;
+      }
+      
+      .header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .card {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+      }
+      
+      .control-buttons {
+        top: 15px;
+        left: 15px;
+      }
+      
+      .toggle-playlist {
+        top: 15px;
+        right: 15px;
+      }
+      
+      .music-player {
+        padding: 18px 0;
+      }
+    }
+
+    /* Large screen optimizations */
+    @media (min-width: 1200px) {
+      .main-content {
+        max-width: 1400px;
+      }
+      
+      .header h1 {
+        font-size: 3.5rem;
+      }
+      
+      .card {
+        padding: 40px;
+      }
+    }
+
+    /* Touch-friendly improvements for mobile */
+    @media (hover: none) and (pointer: coarse) {
+      .control-btn,
+      .interactive-btn,
+      .playlist-item,
+      .control-btn-player {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      .playlist-item {
+        padding: 15px;
+      }
+      
+      .progress-bar {
+        height: 8px;
+      }
+      
+      .volume-slider {
+        height: 6px;
+      }
+    }
+
+    /* Landscape orientation fixes for mobile */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .header {
+        padding: 15px 20px;
+        margin-bottom: 15px;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+      
+      .header p {
+        font-size: 0.9rem;
+        min-block-size: 30px;
+      }
+      
+      .card {
+        padding: 15px 20px;
+        margin-bottom: 15px;
+      }
+      
+      .main-content {
+        padding-bottom: 120px;
       }
     }
   </style>
@@ -836,6 +1114,42 @@
     }
     .play-btn svg {
       color: #fff;
+    }
+
+    /* Additional mobile optimizations */
+    @media (max-width: 480px) {
+      /* Prevent horizontal scrolling */
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+      }
+      
+      /* Improve touch scrolling */
+      .playlist-sidebar {
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+      }
+      
+      /* Better spacing for mobile */
+      .main-content > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      .control-btn,
+      .interactive-btn,
+      .playlist-item,
+      .control-btn-player {
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      .music-player {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+      }
     }
   </style>
 
