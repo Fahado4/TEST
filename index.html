@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Fahad's First Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
 
     .container-class { /* Replace with your container's class or ID */
@@ -128,6 +128,9 @@
       overflow-x: hidden;
       direction: ltr !important;
       text-align: left !important;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     /* Dark mode styles */
@@ -225,6 +228,7 @@
       text-align: center !important;
     }
 
+      
     /* Profile image */
     .profile-image {
       width: 100%;
@@ -692,46 +696,592 @@
     }
 
     /* Responsive design */
-    @media (max-width: 480px) {
-  .header h1 {
-    font-size: 1.6rem;
-  }
-  .header p {
-    font-size: 1rem;
-  }
-  .card {
-    padding: 15px;
-  }
-  .profile-image {
-    max-width: 100%;
-    height: auto;
-  }
-  .interactive-btn {
-    width: 100%;
-    font-size: 1rem;
-  }
-  .control-buttons {
-    flex-direction: column;
-    left: 10px;
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .player-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .now-playing {
+        text-align: center;
+      }
+      
+      .progress-container {
+        text-align: center;
+      }
+      
+      .playlist-sidebar {
+        width: 100%;
+        left: -100%;
+      }
+
+      .volume-container {
+    position: absolute;
     top: 10px;
-  }
-  .toggle-playlist {
-    top: 70px;
     right: 10px;
-    padding: 10px 20px;
-    font-size: 14px;
+    margin-top: 0;
+    gap: 6px;
+
+    .volume-slider {
+    width: 100px; /* shrink for mobile */
   }
-  .player-content {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .player-controls {
-    gap: 10px;
-  }
-  .volume-container {
-    justify-content: center;
-  }
-}
+  
+    }
+
+    /* iPad landscape orientation fixes */
+    @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+      .main-content {
+        padding-bottom: 160px;
+      }
+      
+      .header {
+        padding: 25px 30px;
+        margin-bottom: 25px;
+      }
+      
+      .header h1 {
+        font-size: 2.4rem;
+        margin-bottom: 12px;
+      }
+      
+      .header p {
+        font-size: 1.2rem;
+        min-block-size: 35px;
+      }
+      
+      .card {
+        padding: 25px 20px;
+        margin-bottom: 20px;
+      }
+      
+      .music-player {
+        min-height: 120px;
+        padding: 18px 0;
+      }
+    }
+
+    /* Mobile-first responsive design */
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 5px;
+        padding-bottom: 200px;
+      }
+      
+      .header {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+      }
+      
+      .header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
+      
+      .header p {
+        font-size: 1rem;
+        min-block-size: 40px;
+      }
+      
+      .card {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+      }
+      
+      .card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+      
+      .profile-image {
+        max-width: 100%;
+        margin: 15px auto;
+      }
+      
+      .fun-facts li {
+        padding: 12px 15px;
+        margin: 8px 0;
+        font-size: 0.95rem;
+      }
+      
+      .clock {
+        font-size: 2rem;
+      }
+      
+      .interactive-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        margin: 15px auto;
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .message {
+        font-size: 1rem;
+        padding: 12px;
+        min-height: 50px;
+      }
+      
+      .control-buttons {
+        top: 10px;
+        left: 10px;
+        gap: 8px;
+        flex-direction: column;
+      }
+      
+      .control-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+        border-radius: 25px;
+      }
+      
+      .toggle-playlist {
+        top: 10px;
+        right: 10px;
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+      
+      .music-player {
+        padding: 15px 0;
+      }
+      
+      .player-content {
+        gap: 15px;
+        padding: 0 15px;
+      }
+      
+      .song-title {
+        font-size: 1rem;
+      }
+      
+      .song-artist {
+        font-size: 0.8rem;
+      }
+      
+      .control-btn-player {
+        font-size: 18px;
+        padding: 8px;
+      }
+      
+      .play-btn {
+        width: 56px;
+        height: 56px;
+      }
+      
+      .progress-bar {
+        height: 5px;
+      }
+      
+      .volume-container {
+        margin-top: 5px;
+        justify-content: center;
+      }
+      
+      .volume-slider {
+        width: 100px;
+      }
+      
+      .playlist-sidebar {
+        padding: 15px;
+      }
+      
+      .playlist-header {
+        padding: 30px 0;
+        margin-bottom: 20px;
+      }
+      
+      .playlist-title {
+        font-size: 20px;
+      }
+      
+      .playlist-item {
+        padding: 12px;
+        margin: 6px 0;
+      }
+      
+      .song-number {
+        width: 35px;
+        font-size: 1rem;
+      }
+      
+      .song-info {
+        margin-left: 12px;
+      }
+      
+      .song-name {
+        font-size: 0.95rem;
+      }
+      
+      .song-duration {
+        font-size: 12px;
+      }
+    }
+
+    /* Tablet responsive design */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .main-content {
+        padding: 8px;
+        padding-bottom: 200px;
+      }
+      
+      .header {
+        padding: 30px 25px;
+        margin-bottom: 30px;
+      }
+      
+      .header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .card {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+      }
+      
+      .control-buttons {
+        top: 15px;
+        left: 15px;
+      }
+      
+      .toggle-playlist {
+        top: 15px;
+        right: 15px;
+      }
+      
+      .music-player {
+        padding: 18px 0;
+      }
+    }
+
+    /* iPad Mini and small tablet specific fixes */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .main-content {
+        padding: 15px;
+        padding-bottom: 180px;
+        max-width: 95vw;
+      }
+      
+      .header {
+        padding: 35px 30px;
+        margin-bottom: 35px;
+      }
+      
+      .header h1 {
+        font-size: 2.8rem;
+      }
+      
+      .header p {
+        font-size: 1.3rem;
+        min-block-size: 45px;
+      }
+      
+      .card {
+        padding: 30px 25px;
+        margin-bottom: 30px;
+        border-radius: 18px;
+      }
+      
+      .card h2 {
+        font-size: 2rem;
+        margin-bottom: 25px;
+      }
+      
+      .profile-image {
+        max-width: 350px;
+        margin: 25px auto;
+      }
+      
+      .fun-facts li {
+        padding: 18px 22px;
+        margin: 12px 0;
+        font-size: 1.1rem;
+      }
+      
+      .clock {
+        font-size: 3rem;
+      }
+      
+      .interactive-btn {
+        padding: 18px 35px;
+        font-size: 1.3rem;
+        margin: 25px auto;
+        max-width: 320px;
+      }
+      
+      .message {
+        font-size: 1.3rem;
+        padding: 18px;
+        min-height: 70px;
+      }
+      
+      .control-buttons {
+        top: 20px;
+        left: 20px;
+        gap: 12px;
+      }
+      
+      .control-btn {
+        padding: 14px 22px;
+        font-size: 15px;
+        border-radius: 30px;
+      }
+      
+      .toggle-playlist {
+        top: 20px;
+        right: 20px;
+        padding: 16px 24px;
+        font-size: 17px;
+      }
+      
+      .music-player {
+        padding: 20px 0;
+        min-height: 140px;
+      }
+      
+      .player-content {
+        gap: 20px;
+        padding: 0 20px;
+      }
+      
+      .song-title {
+        font-size: 1.2rem;
+      }
+      
+      .song-artist {
+        font-size: 1rem;
+      }
+      
+      .control-btn-player {
+        font-size: 22px;
+        padding: 12px;
+      }
+      
+      .play-btn {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .progress-bar {
+        height: 6px;
+      }
+      
+      .volume-container {
+        margin-top: 8px;
+      }
+      
+      .volume-slider {
+        width: 120px;
+      }
+      
+      .playlist-sidebar {
+        width: 400px;
+        left: -400px;
+        padding: 25px;
+      }
+      
+      .playlist-header {
+        padding: 40px 0;
+        margin-bottom: 25px;
+      }
+      
+      .playlist-title {
+        font-size: 22px;
+      }
+      
+      .playlist-item {
+        padding: 15px;
+        margin: 8px 0;
+      }
+      
+      .song-number {
+        width: 38px;
+        font-size: 1.1rem;
+      }
+      
+      .song-info {
+        margin-left: 15px;
+      }
+      
+      .song-name {
+        font-size: 1rem;
+      }
+      
+      .song-duration {
+        font-size: 13px;
+      }
+    }
+
+    /* Large screen optimizations */
+    @media (min-width: 1200px) {
+      .main-content {
+        max-width: 1400px;
+      }
+      
+      .header h1 {
+        font-size: 3.5rem;
+      }
+      
+      .card {
+        padding: 40px;
+      }
+    }
+
+    /* Touch-friendly improvements for mobile */
+    @media (hover: none) and (pointer: coarse) {
+      .control-btn,
+      .interactive-btn,
+      .playlist-item,
+      .control-btn-player {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      .playlist-item {
+        padding: 15px;
+      }
+      
+      .progress-bar {
+        height: 8px;
+      }
+      
+      .volume-slider {
+        height: 6px;
+      }
+    }
+
+    /* iPad-specific touch optimizations */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .control-btn,
+      .interactive-btn,
+      .playlist-item,
+      .control-btn-player {
+        min-height: 48px;
+        min-width: 48px;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      
+      .playlist-item {
+        padding: 18px;
+        margin: 10px 0;
+      }
+      
+      .progress-bar {
+        height: 8px;
+        cursor: pointer;
+      }
+      
+      .volume-slider {
+        height: 8px;
+        cursor: pointer;
+      }
+      
+      /* Better touch scrolling for iPad */
+      .playlist-sidebar {
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+      }
+      
+      /* Improved button spacing for touch */
+      .control-buttons {
+        gap: 15px;
+      }
+      
+      .player-controls {
+        gap: 25px;
+      }
+    }
+
+    /* Landscape orientation fixes for mobile */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .header {
+        padding: 15px 20px;
+        margin-bottom: 15px;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+      
+      .header p {
+        font-size: 0.9rem;
+        min-block-size: 30px;
+      }
+      
+      .card {
+        padding: 15px 20px;
+        margin-bottom: 15px;
+      }
+      
+      .main-content {
+        padding-bottom: 140px;
+      }
+      
+      /* Ensure content is visible in landscape */
+      .music-player {
+        min-height: 100px;
+        padding: 15px 0;
+      }
+    }
+
+    /* Additional mobile optimizations */
+    @media (max-width: 480px) {
+      /* Prevent horizontal scrolling */
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+      }
+      
+      /* Improve touch scrolling */
+      .playlist-sidebar {
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+      }
+      
+      /* Better spacing for mobile */
+      .main-content > *:last-child {
+        margin-bottom: 0;
+      }
+      
+      /* Ensure content is visible above music player */
+      .main-content {
+        padding-bottom: 220px;
+      }
+      
+      /* Make sure all content is visible */
+      .card:last-child {
+        margin-bottom: 20px;
+      }
+      
+      /* Adjust music player height for mobile */
+      .music-player {
+        padding: 20px 0;
+        min-height: 120px;
+      }
+    }
+
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+      .control-btn,
+      .interactive-btn,
+      .playlist-item,
+      .control-btn-player {
+        -webkit-appearance: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      .music-player {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+      }
+    }
 
   </style>
 </head>
@@ -881,13 +1431,13 @@
         title: "شاب الشعر ياعبيد",
         artist: "أشباح الخبيتي",
         src: "Remixat-1.opus",
-        duration: "17:01"
+        duration: ""
       },
       {
         title: "Azizam",
         artist: "Ed Sheeran", 
         src: "youtube_I66_rC6o4K4_audio.opus",
-        duration: "2:42"
+        duration: ""
       }
     ];
 
@@ -911,6 +1461,38 @@
     audioPlayer.volume = 0.5;
     audioPlayer.muted = false;
 
+    // Preload durations for all tracks
+    function preloadDurations() {
+      playlist.forEach((track, index) => {
+        if (!track.duration || track.duration === '') {
+          const tempAudio = new Audio();
+          tempAudio.src = track.src;
+          tempAudio.preload = 'metadata';
+          
+          tempAudio.addEventListener('loadedmetadata', function() {
+            if (tempAudio.duration && !isNaN(tempAudio.duration)) {
+              track.duration = formatTime(tempAudio.duration);
+              // Update the playlist item display
+              const playlistItem = document.querySelector(`.playlist-item:nth-child(${index + 1}) .song-duration`);
+              if (playlistItem) {
+                playlistItem.textContent = track.duration;
+              }
+            }
+            tempAudio.removeEventListener('loadedmetadata', arguments.callee);
+          });
+          
+          tempAudio.addEventListener('error', function() {
+            track.duration = '--:--';
+            const playlistItem = document.querySelector(`.playlist-item:nth-child(${index + 1}) .song-duration`);
+            if (playlistItem) {
+              playlistItem.textContent = '--:--';
+            }
+            tempAudio.removeEventListener('error', arguments.callee);
+          });
+        }
+      });
+    }
+
     // Initialize playlist
     function initializePlaylist() {
       const container = document.getElementById('playlistContainer');
@@ -922,14 +1504,17 @@
           <div class="song-number">${index + 1}</div>
           <div class="song-info">
             <div class="song-name">${track.title}</div>
-            <div class="song-duration">${track.duration}</div>
+            <div class="song-duration">${track.duration || '--:--'}</div>
           </div>
         `;
-        container.appendChild(item);5
+        container.appendChild(item);
       });
       // Localized static labels
       currentSongTitle.textContent = translations[getLang()].noSong;
       currentSongArtist.textContent = translations[getLang()].selectFromPlaylist;
+      
+      // Preload durations for all tracks
+      preloadDurations();
     }
 
     // Play specific track
@@ -943,6 +1528,19 @@
       // Update active state in playlist
       document.querySelectorAll('.playlist-item').forEach((item, i) => {
         item.classList.toggle('active', i === index);
+      });
+      
+      // Update duration when metadata loads
+      audioPlayer.addEventListener('loadedmetadata', function updateDuration() {
+        if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+          track.duration = formatTime(audioPlayer.duration);
+          // Update the playlist item display
+          const playlistItem = document.querySelector(`.playlist-item:nth-child(${index + 1}) .song-duration`);
+          if (playlistItem) {
+            playlistItem.textContent = track.duration;
+          }
+        }
+        audioPlayer.removeEventListener('loadedmetadata', updateDuration);
       });
       
       playAudio();
