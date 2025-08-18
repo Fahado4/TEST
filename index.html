@@ -428,6 +428,15 @@
     .dark-toggle.is-on .icon.sun { opacity: 1; }
     .dark-toggle.is-on .icon.moon { opacity: 0; }
 
+    /* Language toggle (same visuals as dark toggle) */
+    .lang-toggle.is-ar .toggle-knob { transform: translateX(28px); }
+    .lang-toggle #langToggleLabel { white-space: nowrap; }
+    .lang-toggle .icon { position: absolute; transition: opacity 0.2s ease; font-size: 12px; line-height: 1; }
+    .lang-toggle .icon.en { opacity: 1; }
+    .lang-toggle .icon.ar { opacity: 0; }
+    .lang-toggle.is-ar .icon.en { opacity: 0; }
+    .lang-toggle.is-ar .icon.ar { opacity: 1; }
+
     /* Music Player */
     .music-player {
       position: fixed;
@@ -1214,7 +1223,6 @@
       .volume-slider {
         height: 6px;
       }
-    }
 
     /* iPad-specific touch optimizations */
     @media (min-width: 768px) and (max-width: 1024px) {
@@ -1344,6 +1352,28 @@
       }
     }
 
+    /* Quick Links card grid */
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .quick-link-box {
+      background: #2a2a2a;
+      color: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+      user-select: none;
+    }
+    .quick-link-box:hover { transform: translateY(-2px); background: #323232; border-color: rgba(255,255,255,0.16); }
+    body.dark .quick-link-box { background: #222; border-color: rgba(255,255,255,0.08); }
+    body.dark .quick-link-box:hover { background: #2a2a2a; border-color: rgba(255,255,255,0.16); }
   </style>
 </head>
 <body>
@@ -1360,9 +1390,17 @@
       </span>
       <span id="darkToggleLabel">Light Mode</span>
     </button>
-    <!-- Language Switcher Buttons -->
-    <button class="control-btn" onclick="setLanguage('en')">EN</button>
-    <button class="control-btn" onclick="setLanguage('ar')">عربي</button>
+    <!-- Language Toggle (styled like dark mode toggle) -->
+    <button class="dark-toggle lang-toggle" id="langToggle" onclick="toggleLanguage()" aria-pressed="false">
+      <span class="toggle-track">
+        <span class="toggle-knob">
+          <!-- Replace these with <img src="path/to/en.png"> and <img src="path/to/ar.png"> if desired -->
+          <img class="icon en" aria-hidden="true" src="enicon.webm.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
+          <img class="icon ar" aria-hidden="true" src="ARicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
+        </span>
+      </span>
+      <span id="langToggleLabel">EN</span>
+    </button>
     <!-- Playlist Button moved into the bar -->
     <button class="control-btn toggle-playlist" id="playlistToggleBtn" onclick="togglePlaylist()"><span id="playlistToggleLabel">🎵 Playlist</span></button>
   </div>
@@ -1411,6 +1449,17 @@
     <div class="card">
       <button class="interactive-btn" id="interactiveBtnLabel" onclick="sayHello()"></button>
       <div class="message" id="message"></div>
+    </div>
+
+    <!-- Quick Links (Fifth Card) -->
+    <div class="card">
+      <h2 id="quickLinksTitle">Quick Links</h2>
+      <div class="quick-links">
+        <a class="quick-link-box" id="box1" href="box1.html">Box 1</a>
+        <a class="quick-link-box" id="box2" href="box2.html">Box 2</a>
+        <a class="quick-link-box" id="box3" href="box3.html">Box 3</a>
+        <a class="quick-link-box" id="box4" href="box4.html">Box 4</a>
+      </div>
     </div>
   </div>
 
@@ -1705,6 +1754,25 @@
       }
     }
 
+    // Language toggle logic (EN <-> عربي)
+    function toggleLanguage() {
+      const current = (document.documentElement.lang || 'en').toLowerCase();
+      const next = current === 'ar' ? 'en' : 'ar';
+      setLanguage(next);
+      syncLangToggle();
+    }
+
+    function syncLangToggle() {
+      const langBtn = document.getElementById('langToggle');
+      const label = document.getElementById('langToggleLabel');
+      const current = (document.documentElement.lang || 'en').toLowerCase();
+      if (!langBtn || !label) return;
+      const isAr = current === 'ar';
+      langBtn.classList.toggle('is-ar', isAr);
+      langBtn.setAttribute('aria-pressed', String(isAr));
+      label.textContent = isAr ? 'عربي' : 'EN';
+    }
+
     // Event listeners
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', nextTrack);
@@ -1813,6 +1881,11 @@
         interactiveBtn: "Press Me!",
         noSong: "No song playing",
         selectFromPlaylist: "Select a song from playlist",
+        quickLinksTitle: "Quick Links",
+        box1: "Box 1",
+        box2: "Box 2",
+        box3: "Box 3",
+        box4: "Box 4",
         // ...add more keys as needed
       },
       ar: {
@@ -1831,6 +1904,11 @@
         interactiveBtn: "أضغطني!",
         noSong: "لا يوجد مقطع مشغّل",
         selectFromPlaylist: "اختر أغنيتك",
+        quickLinksTitle: "روابط سريعة",
+        box1: "الصندوق ١",
+        box2: "الصندوق ٢",
+        box3: "الصندوق ٣",
+        box4: "الصندوق ٤",
         // ...add more keys as needed
       }
     };
@@ -1857,6 +1935,11 @@
         document.getElementById('playlistTitle'),
         document.getElementById('playlistToggleLabel'),
         document.getElementById('darkModeLabel'),
+        document.getElementById('quickLinksTitle'),
+        document.getElementById('box1'),
+        document.getElementById('box2'),
+        document.getElementById('box3'),
+        document.getElementById('box4'),
       ].filter(Boolean); // Filter out nulls if an element isn't found
 
       for (const key in translations[lang]) {
@@ -1898,6 +1981,8 @@
         }
         // Ensure dark toggle label matches current theme after language switch
         syncDarkToggle();
+        // Ensure language toggle reflects current language
+        syncLangToggle();
     }
 
     // On load: restore dark mode preference
@@ -1912,6 +1997,7 @@
     initializePlaylist();
     setLanguage('en');
     syncDarkToggle();
+    syncLangToggle();
     playTrack(0);
   </script>
 </body>
