@@ -329,36 +329,104 @@
 
     /* Control buttons */
     .control-buttons {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      /* No right property needed if left is fixed */
+      /* Make buttons part of normal flow so they scroll away */
+      position: static;
       display: flex;
-      gap: 10px;
-      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      margin: 16px auto 10px;
+      width: fit-content;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1;
       direction: ltr !important; /* Keep the buttons LTR internally */
     }
 
     .control-btn {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
-      padding: 12px 20px;
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-radius: 999px;
+      padding: 14px 26px;
       cursor: pointer;
-      transition: all 0.15s ease;
-      font-size: 14px;
+      transition: all 0.2s ease;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.15);
       /* Hardware acceleration */
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
-      will-change: transform;
+      will-change: transform, background, box-shadow;
     }
 
     .control-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.02) translateZ(0);
-      -webkit-transform: scale(1.02) translateZ(0);
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px) translateZ(0);
+      -webkit-transform: translateY(-1px) translateZ(0);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 0 6px 16px rgba(0,0,0,0.18);
     }
+
+    /* Dark mode animated toggle */
+    .dark-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.15);
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      will-change: transform, background, box-shadow;
+    }
+    .dark-toggle:hover { background: rgba(255,255,255,0.18); }
+    .dark-toggle:focus { outline: none; }
+
+    .dark-toggle .toggle-track {
+      position: relative;
+      width: 58px;
+      height: 30px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .dark-toggle .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ffffff00;
+      color: #000;
+      display: grid;
+      place-items: center;
+      transition: transform 0.25s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .dark-toggle .icon { position: absolute; transition: opacity 0.2s ease; }
+    .dark-toggle .icon.sun { opacity: 0; }
+    .dark-toggle .icon.moon { opacity: 1; }
+
+    /* When ON (dark) */
+    .dark-toggle.is-on .toggle-knob { transform: translateX(28px); }
+    .dark-toggle.is-on .icon.sun { opacity: 1; }
+    .dark-toggle.is-on .icon.moon { opacity: 0; }
 
     /* Music Player */
     .music-player {
@@ -401,6 +469,7 @@
 
     .now-playing {
       text-align: left !important;
+      direction: ltr !important;
     }
 
     .song-title {
@@ -408,12 +477,16 @@
       font-size: 1.1rem;
       margin-bottom: 5px;
       color: #fff;
+      text-align: left !important;
+      direction: ltr !important;
     }
 
     .song-artist {
       font-size: 0.9rem;
       opacity: 0.8;
       color: #ccc;
+      text-align: left !important;
+      direction: ltr !important;
     }
 
     .player-controls {
@@ -621,34 +694,26 @@
 
     /* Playlist button positioning */
     .toggle-playlist {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(40, 40, 40, 0.85);
+      position: static;
+      background: transparent;
       color: #fff;
-      border: 2px solid rgba(255, 255, 255, 0.18);
-      border-radius: 50px;
-      padding: 14px 28px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-radius: 999px;
+      padding: 14px 26px;
       cursor: pointer;
-      z-index: 1002;
       font-size: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-      transition: all 0.15s ease;
-      will-change: transform, opacity;
-      display: flex;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      /* Hardware acceleration */
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
-      direction: ltr !important; /* Keep the toggle button LTR internally */
+      will-change: transform, opacity;
     }
 
     .toggle-playlist:hover {
-      background: #1db954;
+      background: rgba(255, 255, 255, 0.18);
       color: #fff;
-      transform: scale(1.02) translateZ(0);
-      -webkit-transform: scale(1.02) translateZ(0);
+      transform: translateY(-1px);
     }
 
     /* SVG Button Optimizations */
@@ -708,7 +773,7 @@
       }
       
       .now-playing {
-        text-align: center;
+        text-align: left;
       }
       
       .progress-container {
@@ -721,17 +786,16 @@
       }
 
       .volume-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    margin-top: 0;
-    gap: 6px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin-top: 0;
+        gap: 6px;
+      }
 
-    .volume-slider {
-    width: 100px; /* shrink for mobile */
-  }
-  
-    }
+      .volume-slider {
+        width: 100px; /* shrink for mobile */
+      }
 
     /* iPad landscape orientation fixes */
     @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
@@ -828,21 +892,18 @@
       }
       
       .control-buttons {
-        top: 10px;
-        left: 10px;
-        gap: 8px;
-        flex-direction: column;
+        margin: 10px auto 8px;
+        gap: 10px;
+        flex-wrap: wrap;
       }
       
       .control-btn {
-        padding: 10px 16px;
-        font-size: 12px;
-        border-radius: 25px;
+        padding: 10px 18px;
+        font-size: 14px;
+        border-radius: 999px;
       }
       
       .toggle-playlist {
-        top: 10px;
-        right: 10px;
         padding: 12px 20px;
         font-size: 14px;
       }
@@ -1185,7 +1246,7 @@
       /* Better touch scrolling for iPad */
       .playlist-sidebar {
         -webkit-overflow-scrolling: touch;
-        overflow-scrolling: touch;
+        /* removed nonstandard overflow-scrolling */
       }
       
       /* Improved button spacing for touch */
@@ -1242,7 +1303,6 @@
       /* Improve touch scrolling */
       .playlist-sidebar {
         -webkit-overflow-scrolling: touch;
-        overflow-scrolling: touch;
       }
       
       /* Better spacing for mobile */
@@ -1274,6 +1334,7 @@
       .playlist-item,
       .control-btn-player {
         -webkit-appearance: none;
+        appearance: none;
         -webkit-tap-highlight-color: transparent;
       }
       
@@ -1286,15 +1347,24 @@
   </style>
 </head>
 <body>
-  <!-- Playlist Toggle Button -->
-  <button class="toggle-playlist" id="playlistToggleBtn" onclick="togglePlaylist()"><span id="playlistToggleLabel">🎵 Playlist</span></button>
-
   <!-- Control Buttons -->
   <div class="control-buttons">
-    <button class="control-btn" id="darkModeBtn" onclick="toggleDarkMode()"><span id="darkModeLabel">🌙 Dark Mode</span></button>
+    <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()" aria-pressed="false">
+      <span class="toggle-track">
+        <span class="toggle-knob">
+          <!-- Moon Icon -->
+          <span class="icon moon" aria-hidden="true">☀️</span>
+          <!-- Sun Icon -->
+          <span class="icon sun" aria-hidden="true">🌙</span>
+        </span>
+      </span>
+      <span id="darkToggleLabel">Light Mode</span>
+    </button>
     <!-- Language Switcher Buttons -->
     <button class="control-btn" onclick="setLanguage('en')">EN</button>
     <button class="control-btn" onclick="setLanguage('ar')">عربي</button>
+    <!-- Playlist Button moved into the bar -->
+    <button class="control-btn toggle-playlist" id="playlistToggleBtn" onclick="togglePlaylist()"><span id="playlistToggleLabel">🎵 Playlist</span></button>
   </div>
 
   <!-- Playlist Sidebar -->
@@ -1655,9 +1725,26 @@
 
     // Initialize moved to after translations are defined
 
+    // Sync dark toggle UI and label with current state
+    function syncDarkToggle() {
+      const isDark = document.body.classList.contains('dark');
+      const toggle = document.getElementById('darkToggle');
+      if (toggle) {
+        toggle.classList.toggle('is-on', isDark);
+        toggle.setAttribute('aria-pressed', String(isDark));
+      }
+      const lang = getLang();
+      if (darkModeLabelEl) {
+        darkModeLabelEl.textContent = isDark
+          ? (translations[lang].darkMode)
+          : (translations[lang].lightMode);
+      }
+    }
+
     // Dark mode toggle
     function toggleDarkMode() {
       document.body.classList.toggle('dark');
+      syncDarkToggle();
     }
 
     // Original functions
@@ -1721,7 +1808,8 @@
         helloMessage: "Shame On You!🫢",
         playlistTitle: "Playlist 🎵",
         playlistToggle: "Playlist 🎵",
-        darkMode: "Dark Mode 🌙",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
         interactiveBtn: "Press Me!",
         noSong: "No song playing",
         selectFromPlaylist: "Select a song from playlist",
@@ -1738,7 +1826,8 @@
         helloMessage: "🫢!ياقليل الأدب",
         playlistTitle: "قائمة التشغيل 🎵",
         playlistToggle: "قائمة التشغيل 🎵",
-        darkMode: "🌙 الوضع الداكن",
+        darkMode: "ليل",
+        lightMode: "نهار",
         interactiveBtn: "أضغطني!",
         noSong: "لا يوجد مقطع مشغّل",
         selectFromPlaylist: "اختر أغنيتك",
@@ -1753,6 +1842,7 @@
     function setLanguage(lang) {
       document.documentElement.lang = lang;
       // Define elements that need direction/text-align adjustment based on language
+      // Excluding currentSongTitle and currentSongArtist to keep their position fixed
       const rtlElements = [
         document.getElementById('greeting'),
         document.getElementById('intro'),
@@ -1767,8 +1857,6 @@
         document.getElementById('playlistTitle'),
         document.getElementById('playlistToggleLabel'),
         document.getElementById('darkModeLabel'),
-        document.getElementById('currentSongTitle'),
-        document.getElementById('currentSongArtist'),
       ].filter(Boolean); // Filter out nulls if an element isn't found
 
       for (const key in translations[lang]) {
@@ -1808,11 +1896,22 @@
           // Update the message to the new language
           messageEl.textContent = translations[lang].helloMessage;
         }
+        // Ensure dark toggle label matches current theme after language switch
+        syncDarkToggle();
     }
+
+    // On load: restore dark mode preference
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+      }
+    } catch (e) {}
 
     // Initialize after translations are ready
     initializePlaylist();
     setLanguage('en');
+    syncDarkToggle();
     playTrack(0);
   </script>
 </body>
