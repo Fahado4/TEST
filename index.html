@@ -329,8 +329,9 @@
 
     /* Control buttons */
     .control-buttons {
-      /* Make buttons part of normal flow so they scroll away */
-      position: static;
+      /* Ensure the controls sit above other layers and receive clicks */
+      position: relative;
+      z-index: 10000;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -343,7 +344,6 @@
       border: 2px solid rgba(255, 255, 255, 0.28);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      z-index: 1;
       direction: ltr !important; /* Keep the buttons LTR internally */
     }
 
@@ -1397,7 +1397,7 @@
       <span class="toggle-track">
         <span class="toggle-knob">
           <!-- Replace these with <img src="path/to/en.png"> and <img src="path/to/ar.png"> if desired -->
-          <img class="icon en" aria-hidden="true" src="enicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
+          <img class="icon en" aria-hidden="true" src="Enicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
           <img class="icon ar" aria-hidden="true" src="ARicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
         </span>
       </span>
@@ -1775,6 +1775,77 @@
       label.textContent = isAr ? 'عربي' : 'EN';
     }
 
+    // Function to set language
+    function setLanguage(lang) {
+      // Persist preference
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+      document.documentElement.lang = lang;
+      // Define elements that need direction/text-align adjustment based on language
+      // Excluding currentSongTitle and currentSongArtist to keep their position fixed
+      const rtlElements = [
+        document.getElementById('greeting'),
+        document.getElementById('intro'),
+        document.getElementById('funFactsTitle'),
+        document.getElementById('fact1'),
+        document.getElementById('fact2'),
+        document.getElementById('fact3'),
+        document.getElementById('currentTime'),
+        document.getElementById('clock'),
+        document.getElementById('interactiveBtnLabel'),
+        document.getElementById('message'),
+        document.getElementById('playlistTitle'),
+        document.getElementById('playlistToggleLabel'),
+        document.getElementById('darkToggleLabel'),
+        document.getElementById('quickLinksTitle'),
+        document.getElementById('box1'),
+        document.getElementById('box2'),
+        document.getElementById('box3'),
+        document.getElementById('box4'),
+      ].filter(Boolean); // Filter out nulls if an element isn't found
+
+      for (const key in translations[lang]) {
+        const el = document.getElementById(key);
+        if (el) {
+          if (key === 'intro') {
+            el.innerHTML = translations[lang][key];
+          } else {
+            el.textContent = translations[lang][key];
+          }
+        }
+      }
+
+      // Apply/remove .arabic-content class for RTL layout on specific elements
+      rtlElements.forEach(el => {
+        if (lang === 'ar') {
+          el.classList.add('arabic-content');
+        } else {
+          el.classList.remove('arabic-content');
+        }
+      });
+
+      // Update non-id labels
+      if (playlistTitleEl) playlistTitleEl.textContent = translations[lang].playlistTitle;
+      if (playlistToggleLabelEl) playlistToggleLabelEl.textContent = translations[lang].playlistToggle;
+      if (darkModeLabelEl) darkModeLabelEl.textContent = translations[lang].darkMode;
+      if (interactiveBtnLabelEl) interactiveBtnLabelEl.textContent = translations[lang].interactiveBtn;
+             // Reset static placeholders for now playing labels
+       if (!audioPlayer.src) {
+         currentSongTitle.textContent = translations[lang].noSong;
+         currentSongArtist.textContent = translations[lang].selectFromPlaylist;
+       }
+       
+               // Update message content if it exists and has content
+        const messageEl = document.getElementById('message');
+        if (messageEl && messageEl.textContent.trim()) {
+          // Update the message to the new language
+          messageEl.textContent = translations[lang].helloMessage;
+        }
+        // Ensure dark toggle label matches current theme after language switch
+        syncDarkToggle();
+        // Ensure language toggle reflects current language
+        syncLangToggle();
+    }
+
     // Event listeners
     audioPlayer.addEventListener('timeupdate', updateProgress);
     audioPlayer.addEventListener('ended', nextTrack);
@@ -1793,7 +1864,80 @@
       updateVolumeIcon();
     });
 
-    // Initialize moved to after translations are defined
+    // Initialize after translations are ready
+    const translations = {
+      en: {
+        greeting: "Hi, I'm Fahad 👋",
+        intro: "This is my first website. I'm an Electrical Engineering student who is also a <span lang=\"ar\" class=\"arabic-text\">بيّاع</span>",
+        funFactsTitle: "🌟 Fun Facts About Me",
+        fact1: "I love electronics",
+        fact2: "I'm learning to code",
+        fact3: "I enjoy coffee ☕",
+        currentTime: "⏰ Current Time",
+        helloMessage: "Shame On You!🫢",
+        playlistTitle: "Playlist 🎵",
+        playlistToggle: "Playlist 🎵",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
+        interactiveBtn: "Press Me!",
+        noSong: "No song playing",
+        selectFromPlaylist: "Select a song from playlist",
+        quickLinksTitle: "Quick Links",
+        box1: "Box 1",
+        box2: "Box 2",
+        box3: "Box 3",
+        box4: "Box 4",
+        // ...add more keys as needed
+      },
+      ar: {
+        greeting: "مرحباً، أنا فهد 👋",
+        intro: "هذا أول موقع لي. أنا طالب هندسة كهربائية وبيّاع",
+        funFactsTitle: "حقائق ممتعة عني 🌟",
+        fact1: "أحب الإلكترونيات",
+        fact2: "أتعلم البرمجة",
+        fact3: "أستمتع بالقهوة ☕",
+        currentTime: "الوقت الحالي ⏰",
+        helloMessage: "🫢!ياقليل الأدب",
+        playlistTitle: "قائمة التشغيل 🎵",
+        playlistToggle: "قائمة التشغيل 🎵",
+        darkMode: "ليل",
+        lightMode: "نهار",
+        interactiveBtn: "أضغطني!",
+        noSong: "لا يوجد مقطع مشغّل",
+        selectFromPlaylist: "اختر أغنيتك",
+        quickLinksTitle: "روابط سريعة",
+        box1: "الصندوق ١",
+        box2: "الصندوق ٢",
+        box3: "الصندوق ٣",
+        box4: "الصندوق ٤",
+        // ...add more keys as needed
+      }
+    };
+
+    initializePlaylist();
+    // Determine initial language: saved pref > device/browser > EN
+    let initialLang = 'en';
+    try {
+      const stored = localStorage.getItem('lang');
+      if (stored === 'en' || stored === 'ar') {
+        initialLang = stored;
+      } else {
+        const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        const norm = String(navLang || '').toLowerCase();
+        if (norm.startsWith('ar')) initialLang = 'ar';
+        else initialLang = 'en';
+      }
+    } catch (e) {
+      // Fallback to EN if access to storage or navigator fails
+      initialLang = 'en';
+    }
+    setLanguage(initialLang);
+    syncDarkToggle();
+    syncLangToggle();
+    playTrack(0);
+
+    // Helpers
+    function getLang() { return document.documentElement.lang || 'en'; }
 
     // Sync dark toggle UI and label with current state
     function syncDarkToggle() {
@@ -1866,128 +2010,6 @@
     }
     updateVolumeIcon();
 
-    // Translations
-    const translations = {
-      en: {
-        greeting: "Hi, I'm Fahad 👋",
-        intro: "This is my first website. I'm an Electrical Engineering student who is also a <span lang=\"ar\" class=\"arabic-text\">بيّاع</span>",
-        funFactsTitle: "🌟 Fun Facts About Me",
-        fact1: "I love electronics",
-        fact2: "I'm learning to code",
-        fact3: "I enjoy coffee ☕",
-        currentTime: "⏰ Current Time",
-        helloMessage: "Shame On You!🫢",
-        playlistTitle: "Playlist 🎵",
-        playlistToggle: "Playlist 🎵",
-        darkMode: "Dark Mode",
-        lightMode: "Light Mode",
-        interactiveBtn: "Press Me!",
-        noSong: "No song playing",
-        selectFromPlaylist: "Select a song from playlist",
-        quickLinksTitle: "Quick Links",
-        box1: "Box 1",
-        box2: "Box 2",
-        box3: "Box 3",
-        box4: "Box 4",
-        // ...add more keys as needed
-      },
-      ar: {
-        greeting: "مرحباً، أنا فهد 👋",
-        intro: "هذا أول موقع لي. أنا طالب هندسة كهربائية وبيّاع",
-        funFactsTitle: "حقائق ممتعة عني 🌟",
-        fact1: "أحب الإلكترونيات",
-        fact2: "أتعلم البرمجة",
-        fact3: "أستمتع بالقهوة ☕",
-        currentTime: "الوقت الحالي ⏰",
-        helloMessage: "🫢!ياقليل الأدب",
-        playlistTitle: "قائمة التشغيل 🎵",
-        playlistToggle: "قائمة التشغيل 🎵",
-        darkMode: "ليل",
-        lightMode: "نهار",
-        interactiveBtn: "أضغطني!",
-        noSong: "لا يوجد مقطع مشغّل",
-        selectFromPlaylist: "اختر أغنيتك",
-        quickLinksTitle: "روابط سريعة",
-        box1: "الصندوق ١",
-        box2: "الصندوق ٢",
-        box3: "الصندوق ٣",
-        box4: "الصندوق ٤",
-        // ...add more keys as needed
-      }
-    };
-
-    // Helpers
-    function getLang() { return document.documentElement.lang || 'en'; }
-
-    // Function to set language
-    function setLanguage(lang) {
-      document.documentElement.lang = lang;
-      // Define elements that need direction/text-align adjustment based on language
-      // Excluding currentSongTitle and currentSongArtist to keep their position fixed
-      const rtlElements = [
-        document.getElementById('greeting'),
-        document.getElementById('intro'),
-        document.getElementById('funFactsTitle'),
-        document.getElementById('fact1'),
-        document.getElementById('fact2'),
-        document.getElementById('fact3'),
-        document.getElementById('currentTime'),
-        document.getElementById('clock'),
-        document.getElementById('interactiveBtnLabel'),
-        document.getElementById('message'),
-        document.getElementById('playlistTitle'),
-        document.getElementById('playlistToggleLabel'),
-        document.getElementById('darkToggleLabel'),
-        document.getElementById('quickLinksTitle'),
-        document.getElementById('box1'),
-        document.getElementById('box2'),
-        document.getElementById('box3'),
-        document.getElementById('box4'),
-      ].filter(Boolean); // Filter out nulls if an element isn't found
-
-      for (const key in translations[lang]) {
-        const el = document.getElementById(key);
-        if (el) {
-          if (key === 'intro') {
-            el.innerHTML = translations[lang][key];
-          } else {
-            el.textContent = translations[lang][key];
-          }
-        }
-      }
-
-      // Apply/remove .arabic-content class for RTL layout on specific elements
-      rtlElements.forEach(el => {
-        if (lang === 'ar') {
-          el.classList.add('arabic-content');
-        } else {
-          el.classList.remove('arabic-content');
-        }
-      });
-
-      // Update non-id labels
-      if (playlistTitleEl) playlistTitleEl.textContent = translations[lang].playlistTitle;
-      if (playlistToggleLabelEl) playlistToggleLabelEl.textContent = translations[lang].playlistToggle;
-      if (darkModeLabelEl) darkModeLabelEl.textContent = translations[lang].darkMode;
-      if (interactiveBtnLabelEl) interactiveBtnLabelEl.textContent = translations[lang].interactiveBtn;
-             // Reset static placeholders for now playing labels
-       if (!audioPlayer.src) {
-         currentSongTitle.textContent = translations[lang].noSong;
-         currentSongArtist.textContent = translations[lang].selectFromPlaylist;
-       }
-       
-               // Update message content if it exists and has content
-        const messageEl = document.getElementById('message');
-        if (messageEl && messageEl.textContent.trim()) {
-          // Update the message to the new language
-          messageEl.textContent = translations[lang].helloMessage;
-        }
-        // Ensure dark toggle label matches current theme after language switch
-        syncDarkToggle();
-        // Ensure language toggle reflects current language
-        syncLangToggle();
-    }
-
     // On load: use saved preference; otherwise follow system theme
     try {
       const savedTheme = localStorage.getItem('theme');
@@ -1999,6 +2021,7 @@
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.body.classList.toggle('dark', prefersDark);
       }
+      syncDarkToggle(); // Ensure the toggle UI/label matches the applied theme
     } catch (e) {}
 
     // Keep following system theme unless the user explicitly sets a preference
@@ -2016,13 +2039,6 @@
         else if (mql.addListener) mql.addListener(handleSystemTheme);
       }
     } catch (e) {}
-
-    // Initialize after translations are ready
-    initializePlaylist();
-    setLanguage('en');
-    syncDarkToggle();
-    syncLangToggle();
-    playTrack(0);
   </script>
 </body>
 </html>
