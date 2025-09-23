@@ -329,9 +329,9 @@
 
     /* Control buttons */
     .control-buttons {
-      /* Ensure the controls sit above other layers and receive clicks */
+      /* Keep above content but below playlist sidebar (which is z-index: 1000) */
       position: relative;
-      z-index: 10000;
+      z-index: 800;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -1397,7 +1397,7 @@
       <span class="toggle-track">
         <span class="toggle-knob">
           <!-- Replace these with <img src="path/to/en.png"> and <img src="path/to/ar.png"> if desired -->
-          <img class="icon en" aria-hidden="true" src="Enicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
+          <img class="icon en" aria-hidden="true" src="ENicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
           <img class="icon ar" aria-hidden="true" src="ARicon.jpg" style="width: 24px; height: 24px; border-radius: 50%;">
         </span>
       </span>
@@ -1426,11 +1426,6 @@
       <p id="intro"></p>
     </div>
 
-    <!-- Profile Image -->
-    <div class="card">
-      <img src="sand-castle.webp" alt="Saudi Arabia" class="profile-image">
-    </div>
-
     <!-- Fun Facts -->
     <div class="card">
       <h2 id="funFactsTitle"></h2>
@@ -1441,10 +1436,14 @@
       </ul>
     </div>
 
-    <!-- Live Clock -->
+    <!-- New Card in place of old Box 3: link to box1.html -->
     <div class="card">
-      <h2 id="currentTime"></h2>
-      <div class="clock" id="clock"></div>
+      <h2><a href="box1.html" style="color: inherit; text-decoration: none;">Open Box 1 Page</a></h2>
+    </div>
+
+    <!-- Replaced Box 4 (time) with a link to box2.html -->
+    <div class="card">
+      <h2><a href="box2.html" style="color: inherit; text-decoration: none;">Open Box 2 Page</a></h2>
     </div>
 
     <!-- Interactive Section -->
@@ -1970,11 +1969,14 @@
     }
 
     setInterval(() => {
-      document.getElementById('clock').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      // Ensure the section title stays translated even after switches
-      const lang = getLang();
-      const titleEl = document.getElementById('currentTime');
-      if (titleEl) titleEl.textContent = translations[lang].currentTime;
+      const clockEl = document.getElementById('clock');
+      if (clockEl) {
+        clockEl.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // Ensure the section title stays translated even after switches
+        const lang = getLang();
+        const titleEl = document.getElementById('currentTime');
+        if (titleEl) titleEl.textContent = translations[lang].currentTime;
+      }
     }, 1000);
 
     // Replace play/pause icon dynamically
